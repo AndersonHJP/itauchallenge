@@ -1,0 +1,23 @@
+version: '3.8'
+
+services:
+  db:
+    image: mysql:latest
+    environment:
+      MYSQL_ROOT_PASSWORD: admin
+      MYSQL_DATABASE: clients
+      MYSQL_USER: admin
+      MYSQL_PASSWORD: admin
+    ports:
+      - "3307:3306"  # Mapeando a porta do container 3306 para a porta 3307 no host
+    volumes:
+      - db_data:/var/lib/mysql
+    networks:
+      - mynetwork
+
+volumes:
+  db_data:
+
+networks:
+  mynetwork:
+    driver: bridge
