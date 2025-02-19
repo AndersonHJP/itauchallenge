@@ -23,11 +23,25 @@ public class ClientService {
         client.setFirstName(clientDTO.firstName());
         client.setLastName(clientDTO.lastName());
         client.setParticipation(clientDTO.participation());
+        if (client == null
+                || client.getFirstName() == null
+                || client.getLastName() == null
+                || client.getParticipation() == null){
+            throw new NullPointerException();
+        }
         return clientRepository.save(client);
 
     }
 
     public List<Client> listAllClients() {
-        return clientRepository.findAll();
+        List<Client> allClients = clientRepository.findAll();
+        if (allClients == null){
+            throw new NullPointerException();
+        }
+        return allClients;
+    }
+
+    public void delete(Long id) {
+        clientRepository.deleteById(id);
     }
 }

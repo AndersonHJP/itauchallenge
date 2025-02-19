@@ -27,6 +27,11 @@ public class ClientController {
     @GetMapping("/listAll")
     public ResponseEntity<List<Client>> listAllClients() {
         return ResponseEntity.ok(clientService.listAllClients());
+    }
 
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<String> deleteCliente(@PathVariable("id") Long id){
+        clientService.delete(id);
+        return ResponseEntity.status(HttpStatus.OK).body("Client deleted successfully");
     }
 }
