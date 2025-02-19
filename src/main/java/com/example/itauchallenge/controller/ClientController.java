@@ -27,7 +27,6 @@ public class ClientController {
     @GetMapping("/listAll")
     public ResponseEntity<List<Client>> listAllClients() {
         return ResponseEntity.ok(clientService.listAllClients());
-
-
+        //
     }
 }
