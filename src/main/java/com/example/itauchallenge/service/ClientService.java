@@ -6,6 +6,7 @@ import com.example.itauchallenge.repository.ClientRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class ClientService {
@@ -43,5 +44,20 @@ public class ClientService {
 
     public void delete(Long id) {
         clientRepository.deleteById(id);
+    }
+
+    public Client update(Long id, ClientDTO clientDTO){
+        Optional<Client> optionalClient = clientRepository.findById(id);
+        if (optionalClient.isPresent()){
+            Client client = optionalClient.get();
+
+            client.setFirstName(clientDTO.firstName());
+            client.setLastName(clientDTO.lastName());
+            client.setParticipation(clientDTO.participation());
+
+            return clientRepository.save(client);
+        } else {
+            throw new RuntimeException("Client not found with ID: " + id);
+        }
     }
 }
