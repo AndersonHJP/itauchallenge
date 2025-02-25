@@ -34,28 +34,7 @@ public class Client {
 
     }
 
-    public @NotBlank(message = "O nome é obrigatório") String getFirstName() {
-        return firstName;
-    }
-
-    public void setFirstName(@NotBlank(message = "O nome é obrigatório") String firstName) {
-        this.firstName = firstName;
-    }
-
-    public @NotBlank(message = "O sobrenome é obrigatório") String getLastName() {
-        return lastName;
-    }
-
-    public void setLastName(@NotBlank(message = "O sobrenome é obrigatório") String lastName) {
-        this.lastName = lastName;
-    }
-
-    public @NotBlank(message = "A participação é obrigatória") Double getParticipation() {
-        return participation;
-    }
-
-    public void setParticipation(@NotBlank(message = "A participação é obrigatória") Double participation) {
-        this.participation = participation;
+    public Client(String anderson, String hericles, Double aDouble) {
     }
 
     public Long getId() {
@@ -64,5 +43,29 @@ public class Client {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+    public Double getParticipation() {
+        return participation;
+    }
+
+    public void setParticipation(Double participation) {
+        this.participation = participation;
     }
 }
