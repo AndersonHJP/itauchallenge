@@ -5,10 +5,11 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
-import java.math.BigDecimal;
 @Builder
 @Entity
 @AllArgsConstructor
@@ -24,7 +25,8 @@ public class Client {
     @NotBlank(message = "O sobrenome é obrigatório")
     private String lastName;
 
-    @NotBlank(message = "A participação é obrigatória")
+    @NotNull(message = "Participation não pode ser nulo")
+    @Min(value = 0, message = "A participação deve ser maior ou igual a 0")
     private Double participation;
 
     public Client(ClientDTO clientDTO) {
