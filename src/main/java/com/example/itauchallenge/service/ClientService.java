@@ -1,17 +1,18 @@
 package com.example.itauchallenge.service;
 
 import com.example.itauchallenge.dto.ClientDTO;
+import com.example.itauchallenge.dto.ClientResponseDTO;
 import com.example.itauchallenge.entity.Client;
 import com.example.itauchallenge.exception.ClienteNotFoundException;
 import com.example.itauchallenge.repository.ClientRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class ClientService {
-
 
     private final ClientRepository clientRepository;
 
@@ -19,23 +20,20 @@ public class ClientService {
         this.clientRepository = clientRepository;
     }
 
-
-    public Client saveClient(ClientDTO clientDTO) {
-        Client client = new Client();
-        client.setFirstName(clientDTO.firstName());
-        client.setLastName(clientDTO.lastName());
-        client.setParticipation(clientDTO.participation());
-        return clientRepository.save(client);
+    public ClientResponseDTO saveClient(ClientDTO clientDTO) {
+        Client client = new Client(clientDTO);
+        Client savedClient = clientRepository.save(client);
+        return new ClientResponseDTO(savedClient.getId(), savedClient.getFirstName(), savedClient.getLastName(), savedClient.getParticipation());
     }
 
-    public List<Client> listAllClients() {
-        return clientRepository.findAll();
+    public List<ClientResponseDTO> listAllClients() {
+        return clientRepository.findAll().stream()
+                .map(client -> new ClientResponseDTO(client.getId(), client.getFirstName(), client.getLastName(), client.getParticipation()))
+                .collect(Collectors.toList());
     }
 
     public String delete(Long id) {
-        Optional<Client> deleteClient = clientRepository.findById(id);
-
-        if (deleteClient.isPresent()) {
+        if (clientRepository.existsById(id)) {
             clientRepository.deleteById(id);
             return "Usuário deletado com sucesso";
         } else {
@@ -43,17 +41,16 @@ public class ClientService {
         }
     }
 
-    public Client update(Long id, ClientDTO clientDTO){
-        Optional<Client> optionalClient = clientRepository.findById(id);
-        if (optionalClient.isPresent()){
-            Client client = optionalClient.get();
-            client.setFirstName(clientDTO.firstName());
-            client.setLastName(clientDTO.lastName());
-            client.setParticipation(clientDTO.participation());
+    @Transactional
+    public ClientResponseDTO update(Long id, ClientDTO clientDTO) {
+        Client client = clientRepository.findById(id)
+                .orElseThrow(() -> new ClienteNotFoundException("Cliente não encontrado com o ID: " + id));
 
-            return clientRepository.save(client);
-        } else {
-            throw new RuntimeException("Cliente não encontrando com o ID: " + id);
-        }
+        client.setFirstName(clientDTO.firstName());
+        client.setLastName(clientDTO.lastName());
+        client.setParticipation(clientDTO.participation());
+
+        Client updatedClient = clientRepository.save(client);
+        return new ClientResponseDTO(updatedClient.getId(), updatedClient.getFirstName(), updatedClient.getLastName(), updatedClient.getParticipation());
     }
 }

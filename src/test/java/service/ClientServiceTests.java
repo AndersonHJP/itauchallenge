@@ -1,6 +1,7 @@
 package service;
 
 import com.example.itauchallenge.dto.ClientDTO;
+import com.example.itauchallenge.dto.ClientResponseDTO;
 import com.example.itauchallenge.entity.Client;
 import com.example.itauchallenge.repository.ClientRepository;
 import com.example.itauchallenge.service.ClientService;
@@ -13,6 +14,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -33,18 +35,18 @@ public class ClientServiceTests {
 
     @BeforeEach
     public void setUp() {
-        client = new Client(1L, "John", "Doe", 50.0);
-        clientDTO = new ClientDTO("Jane", "Doe", 75.0);
+        client = new Client(1L, "John", "Doe",new BigDecimal(20.0));
+        clientDTO = new ClientDTO("Jane", "Doe", new BigDecimal(500));
     }
 
     @Test
     public void saveClient_ShouldSaveClient_WhenClientDTOIsValid() {
         when(clientRepository.save(ArgumentMatchers.any(Client.class))).thenReturn(client);
 
-        Client savedClient = clientService.saveClient(clientDTO);
+        ClientResponseDTO savedClient = clientService.saveClient(clientDTO);
 
         Assertions.assertNotNull(savedClient);
-        Assertions.assertEquals(client.getId(), savedClient.getId());
+        Assertions.assertEquals(client.getId(), savedClient.id());
         verify(clientRepository, times(1)).save(ArgumentMatchers.any(Client.class));
     }
 
@@ -94,11 +96,11 @@ public class ClientServiceTests {
         when(clientRepository.findById(client.getId())).thenReturn(Optional.of(client));
         when(clientRepository.save(ArgumentMatchers.any(Client.class))).thenReturn(client);
 
-        Client updatedClient = clientService.update(client.getId(), clientDTO);
+        ClientResponseDTO updatedClient = clientService.update(client.getId(), clientDTO);
 
         Assertions.assertNotNull(updatedClient);
-        Assertions.assertEquals(clientDTO.firstName(), updatedClient.getFirstName());
-        Assertions.assertEquals(clientDTO.lastName(), updatedClient.getLastName());
+        Assertions.assertEquals(clientDTO.firstname(), updatedClient.getFirstName());
+        Assertions.assertEquals(clientDTO.lastname(), updatedClient.getLastName());
         Assertions.assertEquals(clientDTO.participation(), updatedClient.getParticipation());
         verify(clientRepository, times(1)).findById(client.getId());
         verify(clientRepository, times(1)).save(client);

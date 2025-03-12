@@ -1,7 +1,7 @@
 package com.example.itauchallenge.controller;
 
 import com.example.itauchallenge.dto.ClientDTO;
-import com.example.itauchallenge.entity.Client;
+import com.example.itauchallenge.dto.ClientResponseDTO;
 import com.example.itauchallenge.exception.ClienteNotFoundException;
 import com.example.itauchallenge.service.ClientService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -9,7 +9,6 @@ import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -32,11 +31,9 @@ public class ClientController {
             @ApiResponse(responseCode = "400", description = "Dados inválidos fornecidos"),
             @ApiResponse(responseCode = "500", description = "Erro interno do servidor")
     })
-    public ResponseEntity<Client> saveClient(
-            @Parameter(description = "Dados do cliente a serem salvos", required = true)
-            @RequestBody @Valid ClientDTO clientDTO) {
-        Client savedClient = clientService.saveClient(clientDTO);
-        return ResponseEntity.status(HttpStatus.CREATED).body(savedClient);
+    public ResponseEntity<ClientResponseDTO> saveClient(@RequestBody ClientDTO clientDTO) {
+        ClientResponseDTO savedClientDTO = clientService.saveClient(clientDTO);
+        return ResponseEntity.status(HttpStatus.CREATED).body(savedClientDTO);
     }
 
     @GetMapping("/listAll")
@@ -45,9 +42,9 @@ public class ClientController {
             @ApiResponse(responseCode = "200", description = "Lista de clientes encontrados com sucesso"),
             @ApiResponse(responseCode = "404", description = "Nenhum cliente encontrado")
     })
-    public ResponseEntity<List<Client>> listAllClients() {
-        List<Client> clients = clientService.listAllClients();
-        return ResponseEntity.ok(clients);
+    public ResponseEntity<List<ClientResponseDTO>> listAllClients() {
+        List<ClientResponseDTO> responseDTOs = clientService.listAllClients(); // Use o retorno direto do service
+        return ResponseEntity.ok(responseDTOs);
     }
 
     @DeleteMapping("/delete/{id}")
@@ -61,7 +58,6 @@ public class ClientController {
             @PathVariable("id") Long id) {
         try {
             String result = clientService.delete(id);
-
             return ResponseEntity.status(HttpStatus.OK).body(result);
         } catch (ClienteNotFoundException ex) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Cliente com o ID " + id + " não encontrado.");
@@ -77,12 +73,12 @@ public class ClientController {
             @ApiResponse(responseCode = "404", description = "Cliente não encontrado"),
             @ApiResponse(responseCode = "400", description = "Entrada fornecida é inválida")
     })
-    public ResponseEntity<Client> updateClient(
+    public ResponseEntity<ClientResponseDTO> updateClient(
             @Parameter(description = "ID do cliente a ser atualizado", required = true)
             @PathVariable("id") Long id,
             @Parameter(description = "Dados do cliente atualizados", required = true)
             @RequestBody ClientDTO clientDTO) {
-        Client updatedClient = clientService.update(id, clientDTO);
-        return ResponseEntity.ok(updatedClient);
+        ClientResponseDTO responseDTO = clientService.update(id, clientDTO);
+        return ResponseEntity.ok(responseDTO);
     }
 }

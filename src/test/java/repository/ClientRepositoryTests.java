@@ -12,6 +12,7 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 
@@ -27,7 +28,7 @@ public class ClientRepositoryTests {
 
     @BeforeEach
     public void setUp() {
-        client = new Client("John", "Doe", 50.0);
+        client = new Client("John", "Doe", new BigDecimal(500));
     }
 
     @Test
@@ -68,7 +69,7 @@ public class ClientRepositoryTests {
         Client savedClient = clientRepository.save(client);
         savedClient.setFirstName("Jane");
         savedClient.setLastName("Smith");
-        savedClient.setParticipation(75.0);
+        savedClient.setParticipation(new BigDecimal(500));
         Client updatedClient = clientRepository.save(savedClient);
         Assertions.assertEquals("Jane", updatedClient.getFirstName());
         Assertions.assertEquals("Smith", updatedClient.getLastName());

@@ -5,69 +5,39 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.PositiveOrZero;
 import lombok.*;
 
-@Builder
+import java.math.BigDecimal;
+
 @Entity
-@AllArgsConstructor
+@Getter // Lombok: gera os getters automaticamente
+@Setter
+@Builder // Lombok: permite criar objetos usando o padrão Builder
+@NoArgsConstructor // Lombok: gera um construtor vazio (necessário para JPA)
+@AllArgsConstructor // Lombok: gera um construtor com todos os atributos
 public class Client {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotBlank(message = "O nome é obrigatório")
+    @NotBlank(message = "O primeiro nome não pode estar em branco")
     private String firstName;
 
-    @NotBlank(message = "O sobrenome é obrigatório")
+    @NotBlank(message = "O sobrenome não pode estar em branco")
     private String lastName;
 
-    @NotNull(message = "Participation não pode ser nulo")
-    @Min(value = 0, message = "A participação deve ser maior ou igual a 0")
-    private Double participation;
+    @NotNull(message = "A participação não pode ser nula")
+    @PositiveOrZero(message = "A participação deve ser um valor positivo ou zero")
+    private BigDecimal participation;
 
+    // Construtor que recebe um ClientDTO
     public Client(ClientDTO clientDTO) {
-    }
-
-    public Client() {
-
-    }
-
-    public Client(String anderson, String hericles, Double aDouble) {
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getFirstName() {
-        return firstName;
-    }
-
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
-
-    public String getLastName() {
-        return lastName;
-    }
-
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
-    }
-
-    public Double getParticipation() {
-        return participation;
-    }
-
-    public void setParticipation(Double participation) {
-        this.participation = participation;
+        this.firstName = clientDTO.firstName();
+        this.lastName = clientDTO.lastName();
+        this.participation = clientDTO.participation();
     }
 }
