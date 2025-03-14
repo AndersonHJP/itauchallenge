@@ -24,10 +24,10 @@ public class Client {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotBlank(message = "O primeiro nome não pode estar em branco")
+    @NotBlank(message = "O primeiro nome não pode estar em branco ou vazio")
     private String firstName;
 
-    @NotBlank(message = "O sobrenome não pode estar em branco")
+    @NotBlank(message = "O sobrenome não pode estar em branco ou vazio")
     private String lastName;
 
     @NotNull(message = "A participação não pode ser nula")
