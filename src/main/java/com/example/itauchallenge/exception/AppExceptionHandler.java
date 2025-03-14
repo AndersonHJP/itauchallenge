@@ -22,7 +22,10 @@ public class AppExceptionHandler extends ResponseEntityExceptionHandler {
             // Construindo a mensagem com o nome do campo e a mensagem de erro
             errorMessage.append("\n- ").append(violation.getPropertyPath()).append(": ").append(violation.getMessage());
         }
-
         return new ResponseEntity<>(errorMessage.toString(), HttpStatus.BAD_REQUEST);
+    }
+    @ExceptionHandler(Exception.class)
+    public ResponseEntity<String> handleGenericException(Exception exception) {
+        return new ResponseEntity<>("Internal server error", HttpStatus.INTERNAL_SERVER_ERROR);
     }
 }
