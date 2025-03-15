@@ -13,11 +13,11 @@ import lombok.*;
 import java.math.BigDecimal;
 
 @Entity
-@Getter // Lombok: gera os getters automaticamente
+@Getter
 @Setter
-@Builder // Lombok: permite criar objetos usando o padrão Builder
-@NoArgsConstructor // Lombok: gera um construtor vazio (necessário para JPA)
-@AllArgsConstructor // Lombok: gera um construtor com todos os atributos
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class Client {
 
     @Id
