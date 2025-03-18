@@ -21,6 +21,11 @@ public class ClientService {
     }
 
     public ClientResponseDTO saveClient(ClientDTO clientDTO) {
+        if (clientDTO == null || clientDTO.firstName() == null || clientDTO.firstName().isEmpty() ||
+                clientDTO.lastName() == null || clientDTO.lastName().isEmpty() || clientDTO.participation() == null) {
+            throw new IllegalArgumentException("Campos obrigatórios não podem ser nulos");
+        }
+
         Client client = new Client(clientDTO);
         Client savedClient = clientRepository.save(client);
         return new ClientResponseDTO(savedClient.getId(), savedClient.getFirstName(), savedClient.getLastName(), savedClient.getParticipation());
