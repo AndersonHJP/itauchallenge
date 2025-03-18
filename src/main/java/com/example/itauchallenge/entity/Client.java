@@ -40,4 +40,9 @@ public class Client {
         this.lastName = clientDTO.lastName();
         this.participation = clientDTO.participation();
     }
+    public Client(String firstName, String lastName, BigDecimal participation) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.participation = participation;
+    }
 }
