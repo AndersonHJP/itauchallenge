@@ -69,11 +69,10 @@ public class ClientRepositoryTests {
         Client savedClient = clientRepository.save(client);
         savedClient.setFirstName("Jane");
         savedClient.setLastName("Smith");
-        savedClient.setParticipation(new BigDecimal(500));
+        savedClient.setParticipation(new BigDecimal(750));
         Client updatedClient = clientRepository.save(savedClient);
         Assertions.assertEquals("Jane", updatedClient.getFirstName());
         Assertions.assertEquals("Smith", updatedClient.getLastName());
-        Assertions.assertEquals(75.0, updatedClient.getParticipation());
+        Assertions.assertEquals(new BigDecimal(750), updatedClient.getParticipation());
     }
-
 }
