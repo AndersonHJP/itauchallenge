@@ -1,7 +1,7 @@
 package repository;
 
 import com.example.itauchallenge.ItauchallengeApplication;
-import com.example.itauchallenge.entity.Client;
+import com.example.itauchallenge.entity.client.Client;
 import com.example.itauchallenge.repository.ClientRepository;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;

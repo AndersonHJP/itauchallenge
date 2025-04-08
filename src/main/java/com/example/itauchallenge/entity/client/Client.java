@@ -1,10 +1,6 @@
-package com.example.itauchallenge.entity;
+package com.example.itauchallenge.entity.client;
 
-import com.example.itauchallenge.dto.ClientDTO;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.PositiveOrZero;
@@ -18,6 +14,7 @@ import java.math.BigDecimal;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@Table(name = "client")
 public class Client {
 
     @Id

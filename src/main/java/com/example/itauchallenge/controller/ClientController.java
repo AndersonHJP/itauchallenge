@@ -1,7 +1,7 @@
 package com.example.itauchallenge.controller;
 
-import com.example.itauchallenge.dto.ClientDTO;
-import com.example.itauchallenge.dto.ClientResponseDTO;
+import com.example.itauchallenge.entity.client.ClientDTO;
+import com.example.itauchallenge.entity.client.ClientResponseDTO;
 import com.example.itauchallenge.exception.ClienteNotFoundException;
 import com.example.itauchallenge.service.ClientService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -76,7 +76,7 @@ public class ClientController {
     public ResponseEntity<ClientResponseDTO> updateClient(
             @Parameter(description = "ID do cliente a ser atualizado", required = true)
             @PathVariable("id") Long id,
-            @Parameter(description = "Dados do cliente atualizados", required = true)
+            @Parameter(description = "Dados do cliente atualizado", required = true)
             @RequestBody ClientDTO clientDTO) {
         ClientResponseDTO responseDTO = clientService.update(id, clientDTO);
         return ResponseEntity.ok(responseDTO);

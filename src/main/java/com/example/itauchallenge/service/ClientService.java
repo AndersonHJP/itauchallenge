@@ -1,8 +1,8 @@
 package com.example.itauchallenge.service;
 
-import com.example.itauchallenge.dto.ClientDTO;
-import com.example.itauchallenge.dto.ClientResponseDTO;
-import com.example.itauchallenge.entity.Client;
+import com.example.itauchallenge.entity.client.ClientDTO;
+import com.example.itauchallenge.entity.client.ClientResponseDTO;
+import com.example.itauchallenge.entity.client.Client;
 import com.example.itauchallenge.exception.ClienteNotFoundException;
 import com.example.itauchallenge.repository.ClientRepository;
 import jakarta.transaction.Transactional;

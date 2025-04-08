@@ -1,4 +1,4 @@
-package com.example.itauchallenge.dto;
+package com.example.itauchallenge.entity.client;
 
 import java.math.BigDecimal;
 
